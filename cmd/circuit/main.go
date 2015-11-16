@@ -25,7 +25,7 @@ func main() {
 			Usage:  "Run a circuit worker on this machine",
 			Action: server,
 			Flags: []cli.Flag{
-				cli.StringFlag{"addr, a", "0.0.0.0:0", "Address of circuit server."},
+				cli.StringFlag{"addr, a", "", "Address of circuit server."},
 				cli.StringFlag{"if", "", "Bind any available port on the specified interface."},
 				cli.StringFlag{"var", "", "Lock and log directory for the circuit server."},
 				cli.StringFlag{"join, j", "", "Join a circuit through a current member by address."},

@@ -19,17 +19,19 @@ func init() {
 
 // Run parameterizes a container execution.
 type Run struct {
-	Image string
-	Memory int64
+	Image     string
+	Memory    int64
 	CpuShares int64
-	Lxc []string
-	Volume []string
-	Dir string
-	Entry string
-	Env []string
-	Path string
-	Args []string
-	Scrub bool
+	Lxc       []string
+	Volume    []string
+	Dir       string
+	Entry     string
+	Env       []string
+	Path      string
+	Args      []string
+	Scrub     bool
+	Network   string
+	LogDriver string
 }
 
 func ParseRun(src string) (*Run, error) {
@@ -41,7 +43,7 @@ func ParseRun(src string) (*Run, error) {
 }
 
 func (x *Run) Arg(name string) []string {
-	var r = []string{"run"}
+	r := []string{"run"}
 	r = append(r, "--name", name) // name
 	if x.CpuShares > 0 {
 		r = append(r, "-c", fmt.Sprintf("%d", x.CpuShares))
@@ -57,6 +59,12 @@ func (x *Run) Arg(name string) []string {
 	}
 	for _, e := range x.Env {
 		r = append(r, "--env", fmt.Sprintf("%s", e))
+	}
+	if x.Network != "" {
+		r = append(r, "--network", x.Network)
+	}
+	if x.LogDriver != "" {
+		r = append(r, "--log-driver", x.LogDriver)
 	}
 	if x.Dir != "" {
 		r = append(r, "--workdir", fmt.Sprintf("%s", x.Dir))

@@ -32,6 +32,7 @@ type Run struct {
 	Scrub     bool
 	Network   string
 	LogDriver string
+	Publish   []string
 }
 
 func ParseRun(src string) (*Run, error) {
@@ -53,6 +54,9 @@ func (x *Run) Arg(name string) []string {
 	}
 	for _, l := range x.Lxc {
 		r = append(r, "--lxc-conf", fmt.Sprintf("%s", l))
+	}
+	for _, p := range x.Publish {
+		r = append(r, "-p", fmt.Sprintf("%s", p))
 	}
 	for _, v := range x.Volume {
 		r = append(r, "--volume", fmt.Sprintf("%s", v))
